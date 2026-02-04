@@ -243,6 +243,7 @@
                     android:id="@+id/etPath"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+		android:focusableInTouchMode="true"。
                     android:hint="路径"
                     android:text="/board" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -276,6 +277,7 @@
                     android:layout_height="wrap_content"
                     android:hint="并发数"
                     android:inputType="number"
+		android:focusableInTouchMode="true"。
                     android:text="100" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -291,6 +293,7 @@
                     android:layout_height="wrap_content"
                     android:hint="延迟(秒)"
                     android:inputType="number"
+		android:focusableInTouchMode="true"
                     android:text="0" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

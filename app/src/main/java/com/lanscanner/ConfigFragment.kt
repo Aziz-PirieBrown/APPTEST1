@@ -76,23 +76,30 @@ class ConfigFragment : Fragment() {
         }
     }
 
-    /**
+  /**
      * 设置路径、并发、延迟等预设下拉内容
      */
     private fun setupPresetOptions() {
-        // 路径设置
-        val pathOptions = listOf("/board", "/wewewe")
+        // 1. 路径设置
+        val pathOptions = arrayOf("/board", "/wewewe")
+        // 设置阈值为 0，确保不输入也能弹出
+        etPath.threshold = 0 
         etPath.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, pathOptions))
-        etPath.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) etPath.showDropDown() }
-        etPath.setOnClickListener { etPath.showDropDown() }
+        
+        // 关键修复：点击时不仅 showDropDown，还要清空过滤器确保显示全部
+        etPath.setOnClickListener { 
+            etPath.text?.let { etPath.showDropDown() } 
+        }
 
-        // 并发数设置
-        val concurrencyOptions = listOf("80", "100", "120", "150")
+        // 2. 并发数设置
+        val concurrencyOptions = arrayOf("80", "100", "120", "150")
+        etConcurrency.threshold = 0
         etConcurrency.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, concurrencyOptions))
         etConcurrency.setOnClickListener { etConcurrency.showDropDown() }
 
-        // 延迟设置
-        val delayOptions = listOf("0", "1", "2", "3", "5", "10")
+        // 3. 延迟设置
+        val delayOptions = arrayOf("0", "1", "2", "3", "5", "10")
+        etDelay.threshold = 0
         etDelay.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, delayOptions))
         etDelay.setOnClickListener { etDelay.showDropDown() }
     }

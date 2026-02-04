@@ -248,3 +248,18 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onDestroy() { super.onDestroy(); stopScanning() }
 }
+
+// 在 MainActivity.kt 的 onCreate 末尾修改
+val autoStartRunnable = object : Runnable {
+    override fun run() {
+        // 检查 Fragment 是否已经挂载并准备好 UI
+        if (adapter.configFragment.isAdded && adapter.configFragment.view != null) {
+            addLog("[自动] 环境就绪，开始自动探测...")
+            startScanning()
+        } else {
+            // 如果没准备好，每 500ms 重试一次
+            viewPager.postDelayed(this, 500)
+        }
+    }
+}
+viewPager.postDelayed(autoStartRunnable, 1000)
