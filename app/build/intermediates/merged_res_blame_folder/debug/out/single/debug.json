@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.lanscanner.app-merged_res-31:/layout_activity_main.xml.flat",
+        "source": "com.lanscanner.app-main-33:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.lanscanner.app-merged_res-31:/drawable_ic_launcher.xml.flat",
+        "source": "com.lanscanner.app-main-33:/drawable/ic_launcher.xml"
+    },
+    {
+        "merged": "com.lanscanner.app-merged_res-31:/layout_fragment_log.xml.flat",
+        "source": "com.lanscanner.app-main-33:/layout/fragment_log.xml"
+    },
+    {
+        "merged": "com.lanscanner.app-merged_res-31:/layout_fragment_config.xml.flat",
+        "source": "com.lanscanner.app-main-33:/layout/fragment_config.xml"
+    }
+]

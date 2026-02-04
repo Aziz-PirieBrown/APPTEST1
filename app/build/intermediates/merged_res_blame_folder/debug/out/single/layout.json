@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.lanscanner.app-mergeDebugResources-30:/layout/fragment_log.xml",
+        "source": "com.lanscanner.app-main-33:/layout/fragment_log.xml"
+    },
+    {
+        "merged": "com.lanscanner.app-mergeDebugResources-30:/layout/activity_main.xml",
+        "source": "com.lanscanner.app-main-33:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.lanscanner.app-mergeDebugResources-30:/layout/fragment_config.xml",
+        "source": "com.lanscanner.app-main-33:/layout/fragment_config.xml"
+    }
+]
