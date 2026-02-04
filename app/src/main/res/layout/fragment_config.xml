@@ -276,7 +276,7 @@
                     android:layout_height="wrap_content"
                     android:hint="并发数"
                     android:inputType="number"
-                    android:text="120" />
+                    android:text="100" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
