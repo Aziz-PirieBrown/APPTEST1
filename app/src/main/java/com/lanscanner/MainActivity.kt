@@ -56,15 +56,18 @@ class MainActivity : AppCompatActivity() {
                 scanInstalledBrowsers()
             } catch (e: Exception) {}
             
-            // 启动后延时 1 秒自动探测
-            viewPager.postDelayed({
-                try {
-                    addLog("[自动] 应用启动成功，准备开始自动探测...")
-                    startScanning() 
-                } catch (e: Exception) {
-                    addLog("[错误] 自动启动失败: ${e.message}")
+            // 自动启动检测逻辑：循环检查直到 Fragment 加载完成
+            val autoStartRunnable = object : Runnable {
+                override fun run() {
+                    if (adapter.configFragment.isAdded && adapter.configFragment.view != null) {
+                        addLog("[自动] 环境就绪，开始自动探测...")
+                        startScanning()
+                    } else {
+                        viewPager.postDelayed(this, 500)
+                    }
                 }
-            }, 1000)
+            }
+            viewPager.postDelayed(autoStartRunnable, 1000)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -118,7 +121,6 @@ class MainActivity : AppCompatActivity() {
                 addLog("[提示] 基准点不可达，正在扩散扫描...")
             }
             
-            // 获取扩散范围参数
             val yUp = adapter.configFragment.getYUp()
             val yDown = adapter.configFragment.getYDown()
             val yStep = adapter.configFragment.getYStep()
@@ -199,23 +201,16 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) { false }
     }
     
-    /**
-     * 核心逻辑更新：找到目标后自动更新 X/Y 并保存配置
-     */
     private fun onTargetFound(ip: String, port: Int, path: String, delay: Int, browserName: String) {
         isScanning = false
         scanJob?.cancel()
         
-        // 1. 解析发现的 IP，提取最后两位作为新的 BaseX 和 BaseY
         val ipParts = ip.split(".")
         if (ipParts.size == 4) {
             val newX = ipParts[2].toInt()
             val newY = ipParts[3].toInt()
-            
             addLog("[成功] 发现目标: $ip (方式: $discoverySource)")
-            addLog("[更新] 自动将基准点更新为: 192.168.$newX.$newY")
-            
-            // 调用 ConfigFragment 里的 UI 更新方法，并触发保存
+            addLog("[更新] 自动更新基准点为: 192.168.$newX.$newY")
             adapter.configFragment.updateBaseAndSave(newX, newY) 
         }
 
@@ -248,18 +243,3 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onDestroy() { super.onDestroy(); stopScanning() }
 }
-
-// 在 MainActivity.kt 的 onCreate 末尾修改
-val autoStartRunnable = object : Runnable {
-    override fun run() {
-        // 检查 Fragment 是否已经挂载并准备好 UI
-        if (adapter.configFragment.isAdded && adapter.configFragment.view != null) {
-            addLog("[自动] 环境就绪，开始自动探测...")
-            startScanning()
-        } else {
-            // 如果没准备好，每 500ms 重试一次
-            viewPager.postDelayed(this, 500)
-        }
-    }
-}
-viewPager.postDelayed(autoStartRunnable, 1000)
